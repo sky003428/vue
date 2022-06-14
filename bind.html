@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="bind-attribute">
+        <span v-bind:title="message">
+          鼠標懸停幾秒鐘查看此處動態綁定的提示信息！
+        </span>
+      </div>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.37/vue.global.js'
+        integrity='sha512-9Vc284sv0s5PSp3I7M4OsV5rMl09djUv3rn+YRXUnNa3JyHv4NfbJgMypvX7P6gomnPMwt4PwULrYDTxNY88UQ=='
+        crossorigin='anonymous'></script>
+    <script>
+        const AttributeBinding = {
+            data() {
+                return {
+                    message: 'You loaded this page on ' + new Date().toLocaleString()
+                }
+            }
+        }
+
+        // Vue.createApp(AttributeBinding).mount("#bing");
+        Vue.createApp(AttributeBinding).mount('#bind-attribute')
+    </script>
+</body>
+
+</html>
