@@ -27,10 +27,36 @@
         .row {
             display: flex;
         }
+
+        .d-flex {
+            display: flex;
+            overflow: hidden;
+            width: 500px;
+        }
+
+        .d-flex .shape {
+            flex: 0 0 100px;
+        }
+
+
+        .shape {
+            height: 100px;
+            width: 100px;
+            background: yellow;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+        }
     </style>
 </head>
 
 <body>
+    <input type="number" id="quantity" name="quantity" min="1" max="5">
+    <div class="d-flex" id="rect">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
     <div class="row">
         <div class="wrap">
             <div class="star"></div>
@@ -55,57 +81,36 @@
 
     <script src="./js/jquery-3.6.0.js"></script>
     <script>
+        $("input").on("change", function () {
+            if ($(this).val() > 5) $(this).val(5);
+            if ($(this).val() < 1) $(this).val(1);
+            const rate = $(this).val();
+            console.log(rate);
+            $("#rect").css("width", `${100 * rate}px`);
+        });
         $(".row .wrap").mouseenter(function () {
-            $(this).children().css({
-                "background": "yellow",
-                "clip-path": "polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)"
-            });
+            const ind = $(this).index();
 
-            $(this).children().prevAll().css({
-                "background": "yellow",
-                "clip-path": "polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)"
-            });
-
-            $(".row").on("mouseleave", () => {
-                $(event.currentTarget).children().css("background", "#ccc");
-            });
+            $(".star").removeClass("shape");
+            $(this).children().addClass("shape");
+            $(`.star:lt(${ind})`).addClass("shape");
         });
-        $(".row div").mouseleave(function () {
-            $(this).children().nextAll(".star").css({
-                "background": "#ccc",
-            });
-            $(".rate").text("");
 
-        });
         $(".row").mouseleave(function () {
-            $(".star").css({
-                "background": "#ccc",
-            });
-            $(".rate").text("");
-
+            $(".star").removeClass("shape");
         });
 
 
         $(".wrap").click(function () {
             $(".row").off("mouseleave");
-            $(".row div").off("mouseleave");
-
-
             $(".row div").off("mouseenter");
 
-            $(".star").nextAll().css({
-                "background": "#ccc",
-            });
+            const ind = $(this).index();
+            console.log($(`.star:gt(${ind})`))
+            $(`.star:gt(${ind})`).removeClass("shape");
+            $(`.star:eq(${ind})`).addClass("shape");
+            $(`.star:lt(${ind})`).addClass("shape");
 
-            $(this).children().css({
-                "background": "yellow",
-                "clip-path": "polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)"
-            });
-
-            $(".star").prevAll().css({
-                "background": "yellow",
-                "clip-path": "polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)"
-            });
 
             const rate = $(this).index() + 1;
             console.log($(this).index());
