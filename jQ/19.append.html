@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>append</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <ul class="ul">
+                <li>大哥</li>
+                <li class="li">二哥</li>
+                <!-- append -->
+            </ul>
+        </div>
+    </div>
+
+    <script src="./js/jquery-3.6.0.min.js"></script>
+    <script>
+        const index = 3;
+        $("ul").append("<li>三弟</li>");
+        $("ul").prepend("<li>大哥</li>");
+        $(".ul").before("<ul><li>大舅</li></ul>");
+        $(".ul").after("<ul><li>小舅</li></ul>");
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button>append</button>
+    <ul>
+        <li>item1</li>
+        <li>item2</li>
+    </ul>
+    <script src="./js/jquery-3.6.0.js"></script>
+    <script>
+
+        $("button").on("click", function () {
+            let index = $("li:last-child").text().slice(4);
+            index ++;
+            $("ul").append(`<li>item${index}</li>`);
+        });
+        $("ul").on("click", "li", function () {
+            console.log(event.currentTarget);
+            console.log('target',event.target);
+            console.log($(this).text());
+        });
+    </script>
+</body>
+
+</html>

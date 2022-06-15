@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous" />
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <form>
+                <div class="form-row">
+                    <div class="form-group">
+                        <select name="city" id="city">
+                            <option value="0">基隆</option>
+                            <option value="1">台北</option>
+                            <option value="2">新北</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <select name="district" id="district">
+                            <option value="0">七堵區</option>
+                            <option value="1">中正區</option>
+                            <option value="2">暖暖區</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="./js/jquery-3.6.0.min.js"></script>
+    <script>
+        // 選左邊，改右邊
+        // 1.時機點:使用者改變城市選項的時候
+        // 2.改右邊:改成現在城市的區域名列表
+        // 3.必須知道現在使用者選哪一個城市
+        // 4.必須知道這個城市對應的區域列表(陣列)
+        // 5.使用這個區域列表去修改相對的 OPTIONS
+
+        let districtArray = [
+            ["七堵", "中正", "暖暖"],
+            ["中正", "大安", "信義","北投","士林"],
+            ["蘆洲", "三重", "新店","中和"],
+        ];
+
+        $("#city").change(function () {
+            console.log("hi city", $(this).val());
+            $("#district").empty();
+
+            districtArray[$(this).val()].forEach((el, ind) => {
+
+                $("#district").append(`<option value="${ind}">${el}</option>`);
+            });
+            // $("#district option").each((index, elem) => {
+            //     $(elem).text(districtArray[$(this).val()][index]);
+            // });
+        });
+
+        console.log("array:", districtArray[1]);
+
+        $("#district option").eq(0);
+        $("#district option").eq(1);
+        $("#district option").eq(2);
+
+
+    </script>
+</body>
+
+</html>

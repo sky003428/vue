@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .row .wrap {
+            width: 100px;
+            height: 100px;
+
+        }
+
+        .star {
+            width: 100px;
+            height: 100px;
+        }
+
+        .row {
+            width: 500px;
+            height: 100px;
+            background-color: #ccc;
+        }
+
+        .row {
+            display: flex;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="row">
+        <div class="wrap">
+            <div class="star"></div>
+        </div>
+        <div class="wrap">
+            <div class="star"></div>
+        </div>
+        <div class="wrap">
+            <div class="star"></div>
+        </div>
+        <div class="wrap">
+            <div class="star"></div>
+        </div>
+        <div class="wrap">
+            <div class="star"></div>
+        </div>
+    </div>
+    <h5 class="rate"></h5>
+    <div class="comment-box">
+
+    </div>
+
+    <script src="./js/jquery-3.6.0.js"></script>
+    <script>
+        $(".row .wrap").mouseenter(function () {
+            $(this).children().css({
+                "background": "yellow",
+                "clip-path": "polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)"
+            });
+
+            $(this).children().prevAll().css({
+                "background": "yellow",
+                "clip-path": "polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)"
+            });
+
+            $(".row").on("mouseleave", () => {
+                $(event.currentTarget).children().css("background", "#ccc");
+            });
+        });
+        $(".row div").mouseleave(function () {
+            $(this).children().nextAll(".star").css({
+                "background": "#ccc",
+            });
+            $(".rate").text("");
+
+        });
+        $(".row").mouseleave(function () {
+            $(".star").css({
+                "background": "#ccc",
+            });
+            $(".rate").text("");
+
+        });
+
+
+        $(".wrap").click(function () {
+            $(".row").off("mouseleave");
+            $(".row div").off("mouseleave");
+
+
+            $(".row div").off("mouseenter");
+
+            $(".star").nextAll().css({
+                "background": "#ccc",
+            });
+
+            $(this).children().css({
+                "background": "yellow",
+                "clip-path": "polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)"
+            });
+
+            $(".star").prevAll().css({
+                "background": "yellow",
+                "clip-path": "polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)"
+            });
+
+            const rate = $(this).index() + 1;
+            console.log($(this).index());
+
+            // const rate = document.querySelector(".row div").attributes("background")
+            $(".rate").text(`評論${rate}顆星`);
+
+            if ($(".comment-box textarea").length == 0) {
+                $(".comment-box").html(`<textarea name="" id="" cols="30" rows="10"></textarea>`);
+
+            }
+        });
+
+
+
+    </script>
+</body>
+
+</html>

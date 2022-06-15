@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>child filter</title>
+    <style>
+        .col {
+            width: 100px;
+            height: 100px;
+        }
+
+        .col:only-child{
+            background-color: #ccc;
+        }
+
+        .container {
+            display: flex;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <span>span1</span>
+            <div class="col">col1</div>
+            <div class="col">col2</div>
+            <div class="col">col3</div>
+        </div>
+        <div class="row">
+            <div class="col">col1</div>
+            <div class="col">col2</div>
+            <div class="col">col3</div>
+        </div>
+        <div class="row">
+            <div class="col">col1</div>
+        </div>
+    </div>
+
+    <script src="./js/jquery-3.6.0.js"></script>
+    <script>
+        // $(".col:eq(0)").css("background", "yellow");
+        // $(".col:first-child").css("background", "yellow");
+        // $(".col:first-of-type").css("background", "red");
+        // $(".col:nth-child(2)").css("background", "red");
+        // $(".col:only-child").css("background", "red");
+
+
+
+    </script>
+</body>
+
+</html>
