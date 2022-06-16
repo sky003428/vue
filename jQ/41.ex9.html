@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous" />
+    <title>ex9</title>
+    <style>
+        .wrap {
+            width: 800px;
+            height: 400px;
+            background-color: #ccc;
+            position: relative;
+        }
+
+        .box {
+            width: 100px;
+            height: 100px;
+            background-color: lightblue;
+            position: absolute;
+            left: 0px;
+            top: 0px;
+        }
+
+        .red {
+            background-color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap mx-auto">
+        <div class="box" id="box"></div>
+    </div>
+
+    <div class="text-center">
+        <button id="up" class="btn btn-info">
+            <i class="fas fa-caret-up"></i>
+        </button>
+    </div>
+    <div class="text-center">
+        <button id="left" class="btn btn-info mx-3">
+            <i class="fas fa-caret-left"></i>
+        </button>
+
+        <button id="right" class="btn btn-info mx-3">
+            <i class="fas fa-caret-right"></i>
+        </button>
+    </div>
+    <div class="text-center">
+        <button id="down" class="btn btn-info">
+            <i class="fas fa-caret-down"></i>
+        </button>
+    </div>
+
+    <script src="./js/jquery-3.6.0.js"></script>
+    <script>
+        const down = () => {
+            if ($(".box").css("top") == "300px") {
+                $(".box").css("top", "0px");
+
+            } else {
+                $(".box").css("top", "+=100");
+
+            }
+
+        }
+        const up = () => {
+            if ($(".box").css("top") == "0px") {
+                $(".box").css("top", "300px");
+
+            } else {
+                $(".box").css("top", "-=100");
+
+            }
+
+        }
+        const right = () => {
+            if ($(".box").css("left") == "700px") {
+                $(".box").css("left", "0px");
+
+            } else {
+                $(".box").css("left", "+=100");
+
+            }
+
+        }
+        const left = () => {
+            if ($(".box").css("left") == "0px") {
+                $(".box").css("left", "700px");
+
+            } else {
+                $(".box").css("left", "-=100");
+
+            }
+
+        }
+
+
+
+        $("#up").on("click", up);
+        $("#down").on("click", down);
+        $("#right").on("click", right);
+        $("#left").on("click", left);
+
+        $(window).on("keydown", () => {
+
+            if (event.key == "ArrowUp") {
+                $("#up").addClass("red");
+                up();
+            }
+            if (event.key == "ArrowDown") {
+                $("#down").addClass("red");
+                down();
+            }
+            if (event.key == "ArrowRight") {
+                $("#right").addClass("red");
+                right();
+            }
+            if (event.key == "ArrowLeft") {
+                $("#left").addClass("red");
+                left();
+            }
+        })
+        $(window).on("keyup", () => {
+            $("button").removeClass("red");
+        })
+    </script>
+</body>
+
+</html>

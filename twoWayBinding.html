@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="two-way-binding">
+        <p>{{message}}</p>
+        <input v-model="message">
+    </div>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.37/vue.global.js'
+        integrity='sha512-9Vc284sv0s5PSp3I7M4OsV5rMl09djUv3rn+YRXUnNa3JyHv4NfbJgMypvX7P6gomnPMwt4PwULrYDTxNY88UQ=='
+        crossorigin='anonymous'></script>
+    <script>
+        const app = {
+            data() {
+                return {
+                    message: 'hello'
+                }
+            },
+            // 監聽data
+            watch: {
+                message(newStr, oldStr) {
+                    console.log(oldStr);
+                    console.log(newStr);
+                }
+            }
+        }
+
+        // Vue.createApp(AttributeBinding).mount("#bing");
+        Vue.createApp(app).mount('#two-way-binding');
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>offset</title>
+    <style>
+        body {
+            margin: 50px;
+        }
+
+        nav {
+            height: 50px;
+            background-color: #ffa;
+        }
+
+        .box {
+            width: 200px;
+            height: 200px;
+            background-color: #afa;
+            margin-top: 50px;
+            margin-left: 50px;
+            
+        }
+    </style>
+</head>
+
+<body>
+    <nav></nav>
+    <div class="wrap">
+        <div class="box"></div>
+
+    </div>
+
+    <script src="./js/jquery-3.6.0.min.js"></script>
+    <script>
+        console.log("offset:", $(".box").offset());
+
+        $(".box").offset({
+            top: 10, //數值為字串
+            left: 10,
+        });
+    </script>
+</body>
+
+</html>
