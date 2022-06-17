@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>prop</title>
+    </head>
+    <body>
+        <button id="checkProp">check prop</button>
+        <button id="setProp">set prop</button>
+        <button id="rmProp">rm prop</button>
+        <input type="checkbox" id="check1" />
+
+        <script src="./js/jquery-3.6.0.min.js"></script>
+        <script>
+            $("#checkProp").click(function () {
+                console.log("prop:", $("#check1").prop("eason"));
+            });
+
+            $("#setProp").click(function () {
+                $("#check1").prop("eason", true);
+            });
+
+            $("#rmProp").click(function () {
+                $("#check1").removeProp("eason");
+            });
+        </script>
+    </body>
+</html>

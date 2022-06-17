@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+            integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+            crossorigin="anonymous"
+        />
+        <style>
+            .wrap {
+                width: 800px;
+                height: 400px;
+                overflow: hidden;
+                /* border: 2px solid red; */
+                position: relative;
+            }
+            ul.train {
+                list-style: none;
+                padding: 0;
+                display: flex;
+                width: 600%;
+                /* border: 2px solid rgb(74, 242, 74); */
+                transform: translateX(-0px);
+                transition: 0.5s ease;
+            }
+
+            .train li {
+                flex-basis: 0;
+                flex-grow: 1;
+                /* border: 2px solid blue; */
+            }
+
+            .train li img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            .slider-dots-area {
+                list-style: none;
+                padding: 0;
+                /* margin: 0; */
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                position: absolute;
+                bottom: 0;
+            }
+
+            .slider-dots-area li {
+                width: 40px;
+                height: 10px;
+                border: 1px solid #fff;
+                margin: 0 5px;
+            }
+
+            .slider-dots-area li:nth-child(1) {
+                background: #fff;
+            }
+
+            .next-page-area {
+                background-color: #afa;
+                position: absolute;
+                top: 0;
+                right: 0;
+                height: 100%;
+                width: 10%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="wrap">
+            <ul class="train">
+                <li>
+                    <img src="./imgs/slide1.jpg" alt="" />
+                </li>
+                <li>
+                    <img src="./imgs/slide2.jpg" alt="" />
+                </li>
+                <li>
+                    <img src="./imgs/slide3.jpg" alt="" />
+                </li>
+                <li>
+                    <img src="./imgs/slide4.jpg" alt="" />
+                </li>
+                <li>
+                    <img src="./imgs/slide5.jpg" alt="" />
+                </li>
+                <li>
+                    <img src="./imgs/slide1.jpg" alt="" />
+                </li>
+            </ul>
+
+            <ul class="slider-dots-area">
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+
+            <div class="next-page-area">
+                <button>></button>
+            </div>
+        </div>
+
+        <script src="./js/jquery-3.6.0.min.js"></script>
+        <script>
+            // 輪播牆
+            // 滑鼠移動到指示點之後，火車要移動到相對應的位置
+            // 1.時機點: .slider-dots-area > li 被 mouseenter
+            // 2.移動到相對應的位置 (transform:translateX)
+            // 3.位置在哪?
+            // 0 -> 0px
+            // 1 -> -800px
+            // 2 -> -1600px
+            // 3 -> -2400px
+
+            let nowPage = 0;
+
+            $(".slider-dots-area li").mouseenter(function () {
+                console.log("hi", $(this).index());
+                // const moveX = [
+                //     "0px",
+                //     "-800px",
+                //     "-1600px",
+                //     "-2400px",
+                //     "-3200px",
+                // ];
+                // console.log(moveX[$(this).index()]);
+                nowPage = $(this).index();
+                trainMove();
+            });
+
+            $(".next-page-area").click(function () {
+                console.log("next-page-area");
+                nowPage++;
+                trainMove();
+            });
+
+            function trainMove() {
+                console.log("trainMove nowPage", nowPage);
+                const moveX = nowPage * -800 + "px";
+                // 火車移動到 moveX 的位置
+                $("ul.train")
+                    .css("transition", ".5s ease")
+                    .css("transform", `translateX(${moveX})`);
+
+                $(".slider-dots-area li")
+                    .eq(nowPage)
+                    .css("background", "#fff")
+                    .siblings()
+                    .css("background", "transparent");
+            }
+
+            function trainMoveWithoutTransition() {
+                console.log("nowPage", nowPage);
+                const moveX = nowPage * -800 + "px";
+                // 火車移動到 moveX 的位置
+                $("ul.train")
+                    .css("transition", "none")
+                    .css("transform", `translateX(${moveX})`);
+
+                $(".slider-dots-area li")
+                    .eq(nowPage)
+                    .css("background", "#fff")
+                    .siblings()
+                    .css("background", "transparent");
+            }
+
+            $("ul.train").on("transitionend", function () {
+                console.log("transitionend nowPage", nowPage);
+                if (nowPage >= 5) {
+                    nowPage = 0;
+                    trainMoveWithoutTransition();
+                }
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        [v-cloak] {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="counter" v-cloak>
+        <button @click="stop" ref="btn">{{stopStr ? 'start':'pause'}}</button>
+        Counter1: {{ counter+Str }}
+    </div>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.37/vue.global.js'
+        integrity='sha512-9Vc284sv0s5PSp3I7M4OsV5rMl09djUv3rn+YRXUnNa3JyHv4NfbJgMypvX7P6gomnPMwt4PwULrYDTxNY88UQ=='
+        crossorigin='anonymous'></script>
+    <script>
+        const Counter = {
+            data() {
+                return {
+                    counter: 0,
+                    stopStr: false,
+                    intval: undefined,
+                    Str:'你好'
+                }
+            },
+            mounted() {
+                // this.intval = setInterval(() => {
+                //     this.counter++
+                // }, 1000)
+
+                this.isStop();
+            },
+            methods: {
+                isStop() {
+                    this.intval = setInterval(() => {
+                        this.counter++
+                    }, 1000)
+                },
+                stop() {
+                    this.stopStr = !this.stopStr;
+                    if (this.stopStr == false) {
+                        this.isStop();
+                    } else {
+                        clearInterval(this.intval);
+                    }
+                }
+            }
+        }
+
+        Vue.createApp(Counter).mount('#counter');
+    </script>
+</body>
+
+</html>

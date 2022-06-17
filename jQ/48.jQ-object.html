@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>jq</title>
+    </head>
+    <body>
+        <h2 id="MyTitle">Hello</h2>
+        <h2>World</h2>
+
+        <script src="./js/jquery-3.6.0.min.js"></script>
+        <script>
+            // JS 跟 JQ 的方法不能共用。
+            // const h2 = $("h2");
+            // console.log("h2", h2[0]);
+            // h2[0].css("color", "blue");
+
+            // JS　想要用　ＪＱ的方法
+            const MyTitle = document.querySelector("#MyTitle");
+            // 要先把 JS物件 轉成 JQ物件
+            $(MyTitle).css("color", "red");
+
+            // ＪＱ　想要用　ＪＳ　的方法
+            const h2 = $("h2");
+            h2[1].style.color = "blue";
+        </script>
+    </body>
+</html>

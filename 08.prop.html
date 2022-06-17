@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="list-rendering">
+        <ol>
+            <!-- 創建一個 todo-item 組件實例 -->
+            <todo-item></todo-item>
+        </ol>
+    </div>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.37/vue.global.js'
+        integrity='sha512-9Vc284sv0s5PSp3I7M4OsV5rMl09djUv3rn+YRXUnNa3JyHv4NfbJgMypvX7P6gomnPMwt4PwULrYDTxNY88UQ=='
+        crossorigin='anonymous'></script>
+    <script>
+        const TodoItem = {
+            template: `<li>This is a todo</li>`
+        };
+
+        const app = Vue.createApp({
+            components: {
+                TodoItem // 注冊一個新組件
+            },
+        })
+
+        app.mount('#list-rendering')
+    </script>
+</body>
+
+</html>

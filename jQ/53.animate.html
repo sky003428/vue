@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>animate</title>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+        />
+        <style>
+            .box {
+                width: 200px;
+                height: 200px;
+                background-color: #afa;
+            }
+        </style>
+    </head>
+    <body>
+        <button id="bounce" data-animation="bounce">bounce</button>
+        <button id="flash" data-animation="flash">flash</button>
+        <div class="box animate__animated"></div>
+
+        <script src="./js/jquery-3.6.0.min.js"></script>
+        <script>
+            $("button").click(function () {
+                const animationName = $(this).data("animation");
+                console.log("animationName", animationName);
+                $(".box")
+                    .addClass(`animate__${animationName}`)
+                    .one(
+                        "webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend",
+                        function () {
+                            $(this).removeClass(`animate__${animationName}`);
+                        }
+                    );
+            });
+        </script>
+    </body>
+</html>
