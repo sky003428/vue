@@ -10,36 +10,25 @@
 
 <body>
     <div id="app">
-        <post :post-title="content" @update-post="myAlert"></post>
+        {{count}}
     </div>
 
     <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.37/vue.global.js'
         integrity='sha512-9Vc284sv0s5PSp3I7M4OsV5rMl09djUv3rn+YRXUnNa3JyHv4NfbJgMypvX7P6gomnPMwt4PwULrYDTxNY88UQ=='
         crossorigin='anonymous'></script>
     <script>
-        const vm = Vue.createApp({
+        const app = Vue.createApp({
             data() {
-                return {
-                    content: "hello"
-                }
+                return { count: 1 }
             },
-            methods: {
-                myAlert(data1, data2) {
-                    console.log(data1);
-                    console.log(data2);
-                }
+            created() {
+                // `this` 指向 vm 實例
+                console.log('count is: ' + this.count) // => "count is: 1"
             }
-        });
-
-        vm.component("post", {
-            props: ["postTitle"],
-            emit: ["updatePost"],
-            template: `
-            <h3 @click="$emit('updatePost', 'alert','hello')">{{postTitle}}</h3>
-            `,
         })
 
-        vm.mount('#app')
+        const vm = app.mount('#app')
+
     </script>
 </body>
 

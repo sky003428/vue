@@ -1,21 +1,17 @@
 <script>
-export default {
-    data() {
-        return {
-     
-        };
-    },
-    prop:["title"]
-};
+    export default {
+        data() {
+            return {};
+        },
+        prop: ["title"],
+    };
 </script>
 
 <template>
     <div>
-        <li>
-            {{ title.text }}
-        </li>
+        <h4>{{ title.text }}</h4>
     </div>
-</template>
+</template> 
 
 <style scoped>
 </style>

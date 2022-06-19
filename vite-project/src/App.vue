@@ -6,7 +6,7 @@ import Count from "./components/count.vue";
 import Vfor from "./components/v-for.vue";
 import Prop from "./components/prop.vue";
 import { ref } from "vue";
-const title = ref({ text: "hello" });
+const title = ref("hello");
 </script>
 
 <template>
@@ -21,12 +21,12 @@ const title = ref({ text: "hello" });
 </template>
 
 <style>
-#app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-    margin-top: 60px;
-}
+    #app {
+        font-family: Avenir, Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-align: center;
+        color: #2c3e50;
+        margin-top: 60px;
+    }
 </style>
