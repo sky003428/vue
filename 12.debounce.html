@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box {
+            width: 50px;
+            height: 50px;
+            background-color: #ffa;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app"></div>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.37/vue.global.js'
+        integrity='sha512-9Vc284sv0s5PSp3I7M4OsV5rMl09djUv3rn+YRXUnNa3JyHv4NfbJgMypvX7P6gomnPMwt4PwULrYDTxNY88UQ=='
+        crossorigin='anonymous'></script>
+    <script src="https://unpkg.com/lodash@4.17.20/lodash.min.js"></script>
+    <script>
+        var app = Vue.createApp({
+            methods: {
+                // 用 Lodash 的防抖函數
+                click: _.debounce(function () {
+                    // ... 響應點擊 ...
+                }, 500)
+            }
+        }).mount('#app')
+
+        app.component('save-button', {
+            created() {
+                // 使用 Lodash 實現防抖
+                this.debouncedClick = _.debounce(this.click, 500)
+            },
+            unmounted() {
+                // 移除組件時，取消定時器
+                this.debouncedClick.cancel()
+            },
+            methods: {
+                click() {
+                    // ... 響應點擊 ...
+                }
+            },
+            template: `
+    <button @click="debouncedClick">
+      Save
+    </button>
+  `
+        })
+    </script>
+
+</body>
+
+</html>
