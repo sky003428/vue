@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box {
+            width: 300px;
+        }
+    </style>
+</head>
+
+<body>
+    <button>click</button>
+    <div class="box">
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Deserunt reiciendis, at blanditiis inventore fuga
+            minus
+            non, dolorem excepturi ipsa mollitia eos laborum ducimus reprehenderit. Voluptatum doloribus sunt fugiat
+            itaque
+            enim.</p>
+    </div>
+
+    <script src="./js/jquery-3.6.0.js"></script>
+    <script>
+        $('button').click(function () {
+            $('.box').slideToggle('fast');
+        });
+    </script>
+</body>
+
+</html>

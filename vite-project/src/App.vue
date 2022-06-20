@@ -5,6 +5,7 @@
 import Count from "./components/count.vue";
 import Vfor from "./components/v-for.vue";
 import Prop from "./components/prop.vue";
+import {uuid} from "vue-uuid";
 import { ref } from "vue";
 const title = ref("hello");
 </script>
@@ -16,7 +17,8 @@ const title = ref("hello");
         <Count></Count>
 
         <Vfor></Vfor>
-        <Prop :title="title"></Prop>
+        <!-- <Prop :title="title"></Prop> -->
+        <div :title="uuid.v4()">123</div>
     </div>
 </template>
 

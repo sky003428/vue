@@ -16,7 +16,9 @@
 </head>
 
 <body>
-    <div id="app"></div>
+    <div id="app">
+        <save-button></save-button>
+    </div>
 
     <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.37/vue.global.js'
         integrity='sha512-9Vc284sv0s5PSp3I7M4OsV5rMl09djUv3rn+YRXUnNa3JyHv4NfbJgMypvX7P6gomnPMwt4PwULrYDTxNY88UQ=='
@@ -30,8 +32,8 @@
                     // ... 響應點擊 ...
                 }, 500)
             }
-        }).mount('#app')
-
+        });
+        
         app.component('save-button', {
             created() {
                 // 使用 Lodash 實現防抖
@@ -47,11 +49,13 @@
                 }
             },
             template: `
-    <button @click="debouncedClick">
-      Save
-    </button>
-  `
+            <button @click="debouncedClick">
+                Save
+            </button>
+            `
         })
+
+        app.mount('#app');
     </script>
 
 </body>
