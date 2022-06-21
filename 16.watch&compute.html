@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="demo">{{ fullName }}</div>
+
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.37/vue.global.js'
+        integrity='sha512-9Vc284sv0s5PSp3I7M4OsV5rMl09djUv3rn+YRXUnNa3JyHv4NfbJgMypvX7P6gomnPMwt4PwULrYDTxNY88UQ=='
+        crossorigin='anonymous'></script>
+
+
+    <script>
+        // const vm = Vue.createApp({
+        //     data() {
+        //         return {
+        //             firstName: 'Foo',
+        //             lastName: 'Bar',
+        //             fullName: 'Foo Bar'
+        //         }
+        //     },
+        //     watch: {
+        //         firstName(val) {
+        //             this.fullName = val + ' ' + this.lastName
+        //         },
+        //         lastName(val) {
+        //             this.fullName = this.firstName + ' ' + val
+        //         }
+        //     }
+        // }).mount('#demo')
+
+
+
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    firstName: 'Foo',
+                    lastName: 'Bar'
+                }
+            },
+            computed: {
+                fullName() {
+                    return this.firstName + ' ' + this.lastName
+                }
+            }
+        }).mount('#demo')
+    </script>
+
+</body>
+
+</html>
