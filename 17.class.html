@@ -19,8 +19,9 @@
 
 <body>
     <div id="demo">
-        <div class="static" :class="classObj" cls="classObj">123</div>
-        <my-component></my-component>
+        <div class="static" :class="classObj">123</div>
+        <my-component :cls="classObj" name="hello"></my-component>
+        <!-- prop要bind不然只會傳字串 -->
     </div>
 
 
@@ -39,7 +40,7 @@
             computed: {
                 classObj() {
                     return {
-                        active: this.isActive && !this.error,
+                        'active': this.isActive,
                         'text-danger': this.error
                     }
                 }
@@ -48,8 +49,9 @@
 
 
         vm.component('my-component', {
-            template: `<p :class="foo bar">Hi!</p>`,
-            props:[cls]
+            template: `<p :class="cls" :data-name="name">my-component</p>`,
+            props: { cls: Object, name: String }
+            // 接prop
         })
 
 
