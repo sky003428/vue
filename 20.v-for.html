@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="demo">
+        <ul id="array-rendering">
+            <li v-for="(v,i) in items">
+                {{author}}-{{i}}----msg: {{ v.message }}
+            </li>
+            <br>
+            <li v-for="(v,i) of items">
+                {{author}}-{{i}}----msg: {{ v.message }}
+            </li>
+            <br>
+
+            <li v-for="(val,ind) in myObjArr">
+                學生{{ind}} 姓名:{{val.name}}
+                <ul>
+                    <li v-for="(v,k) of val">{{k}}:{{v}}</li>
+                </ul>
+            </li>
+            <!-- v-for的for in,for of都是取value(js的for of) -->
+        </ul>
+    </div>
+
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.37/vue.global.js'
+        integrity='sha512-9Vc284sv0s5PSp3I7M4OsV5rMl09djUv3rn+YRXUnNa3JyHv4NfbJgMypvX7P6gomnPMwt4PwULrYDTxNY88UQ=='
+        crossorigin='anonymous'></script>
+
+    <script>
+        Vue.createApp({
+            data() {
+                return {
+                    author: "Tommy",
+                    items: [{ message: 'Foo' }, { message: 'Bar' }],
+                    myObjArr: [{
+                        name: 'Bill',
+                        age: 20,
+                        sex: 'male'
+                    },
+                    {
+                        name: 'Ken',
+                        age: 26,
+                    }
+                    ]
+                }
+            }
+        }).mount('#array-rendering')
+
+
+    </script>
+
+</body>
+
+</html>

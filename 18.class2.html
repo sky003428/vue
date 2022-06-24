@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .active {
+            color: blue;
+        }
+
+        .text-danger {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="demo">
+        <div :style="[styleObject,bgObject]">abc</div>
+        <br>
+        <div :style="{...styleObject,...bgObject}">abc</div>
+        <!-- 也可以解構 -->
+    </div>
+
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.37/vue.global.js'
+        integrity='sha512-9Vc284sv0s5PSp3I7M4OsV5rMl09djUv3rn+YRXUnNa3JyHv4NfbJgMypvX7P6gomnPMwt4PwULrYDTxNY88UQ=='
+        crossorigin='anonymous'></script>
+
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    styleObject: {
+                        color: 'red',
+                        fontSize: '28px'
+                    },
+                    bgObject: {
+                        backgroundColor: '#ccc',
+                        border: '1px solid'
+                    }
+                }
+            }
+        });
+
+
+
+        vm.mount('#demo')
+
+
+
+    </script>
+
+</body>
+
+</html>
