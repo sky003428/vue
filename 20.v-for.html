@@ -36,7 +36,7 @@
         crossorigin='anonymous'></script>
 
     <script>
-        Vue.createApp({
+        const v = Vue.createApp({
             data() {
                 return {
                     author: "Tommy",
@@ -53,8 +53,12 @@
                     ]
                 }
             }
-        }).mount('#array-rendering')
+        }).mount('#demo')
 
+
+        // vue會及時偵聽data的變動
+        // 如: v.items.push({ message: 'Baz' }) 
+        // 但像不會直接更動Array的method操作:v.items = v.items.filter(item => item.message.match(/Foo/))
 
     </script>
 
