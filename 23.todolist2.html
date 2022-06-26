@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        li {
+            height: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="demo">
+        <label for="todo">Add a todo</label>
+        <input type="text" name="todo" id="" v-model="msg" />
+        <button @click="addTodo">submit</button>
+
+        <ul>
+            <todo-item v-for="(t,i) in todoArr" :t="t" @remove="deleteTodo(i)"></todo-item>
+        </ul>
+
+    </div>
+    </div>
+
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.37/vue.global.js'
+        integrity='sha512-9Vc284sv0s5PSp3I7M4OsV5rMl09djUv3rn+YRXUnNa3JyHv4NfbJgMypvX7P6gomnPMwt4PwULrYDTxNY88UQ=='
+        crossorigin='anonymous'></script>
+
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    msg: "",
+                    todoArr: ['洗澡澡','看書']
+                }
+            },
+            methods: {
+                addTodo() {
+                    this.todoArr.push(this.msg);
+                    this.msg = '';
+                },
+                deleteTodo(ind) {
+                    this.todoArr.splice(ind, 1);
+                },
+                
+            }
+        });
+
+        vm.component("todo-item", {
+            props:['t'],
+            emit:['remove'],
+            template: `       
+            <li>
+                <span>{{t}}</span>
+                <button @click="$emit('remove')">remove</button>
+            </li>`
+        })
+
+        vm.mount('#demo');
+
+
+    </script>
+
+</body>
+
+</html>
