@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="demo">
+        <button @click.once="greet($event,name)">Greet Once</button>
+        <button @click="warn('Form cannot be submitted yet.', $event)">
+            Submit
+        </button>
+        <div onclick="console.log('div');">
+            <button @click.stop="btn">stop Bubble</button>
+        </div>
+    </div>
+
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.37/vue.global.js'
+        integrity='sha512-9Vc284sv0s5PSp3I7M4OsV5rMl09djUv3rn+YRXUnNa3JyHv4NfbJgMypvX7P6gomnPMwt4PwULrYDTxNY88UQ=='
+        crossorigin='anonymous'></script>
+
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    name: 'Vue.js'
+                }
+            },
+            methods: {
+                greet(event, n) {
+                    // `methods` 內部的 `this` 指向當前活動實例
+                    alert('Hello ' + n + '!')
+                    // `event` 是原生 DOM event
+                    if (event) {
+                        alert(event.target.tagName)
+                    }
+
+                },
+                warn(message, event) {
+                    // 現在可以訪問到原生事件
+                    if (event) {
+                        event.preventDefault()
+                    }
+                    alert(message)
+                },
+                btn(){
+                    console.log("btn");
+                }
+            }
+        }).mount('#demo')
+
+
+
+    </script>
+
+</body>
+
+</html>
