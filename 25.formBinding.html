@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        #multiple-checks {
+            margin-top: 3rem;
+        }
+
+        #v-model-radiobutton,
+        #v-model-select,
+        #v-model-select-dynamic {
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+
+<body>
+    <form onsubmit="return false;" name="form1">
+        <div id="demo">
+            <textarea v-model="message" placeholder="edit me"></textarea>
+            <p>Message is: {{ message }}</p>
+            <input type="checkbox" name="check" v-model="check">
+            <label for="check">{{check}}</label>
+            <div id="multiple-checks">
+                <input type="checkbox" value="Jack" v-model="checkNames">
+                <label for="Jack">Jack</label>
+                <input type="checkbox" value="Bill" v-model="checkNames">
+                <label for="Jack">Bill</label>
+                <input type="checkbox" value="Milke" v-model="checkNames">
+                <label for="Jack">Mike</label>
+                <br>
+                <span>checked names: <template v-for="n in checkNames">{{n+" "}}</template></span>
+            </div>
+        </div>
+        <div id="v-model-radiobutton">
+            <!-- 原生html是要下name才會變一組radio -->
+            <input type="radio" id="one" value="One" v-model="picked" />
+            <label for="one">One</label>
+            <br />
+            <input type="radio" id="two" value="Two" v-model="picked" />
+            <label for="two">Two</label>
+            <br />
+            <span>Picked: {{ picked }}</span>
+        </div>
+
+        <div id="v-model-select" class="demo">
+            <select v-model="selected" name="select">
+                <option disabled value="">Please select one</option>
+                <option>A</option>
+                <option>B</option>
+                <option>C</option>
+            </select>
+            <span>Selected: {{ selected }}</span>
+        </div>
+
+        <div id="v-model-select-dynamic" class="demo">
+            <select v-model="selected">
+                <option v-for="option in options" :value="option.value">
+                    {{ option.text }}
+                </option>
+            </select>
+            <span>Selected: {{ selected }}</span>
+
+            <br>
+            <label for="toggle">v-bind toggle</label>
+           
+        </div>
+
+    </form>
+
+
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.37/vue.global.js'
+        integrity='sha512-9Vc284sv0s5PSp3I7M4OsV5rMl09djUv3rn+YRXUnNa3JyHv4NfbJgMypvX7P6gomnPMwt4PwULrYDTxNY88UQ=='
+        crossorigin='anonymous'></script>
+
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    message: '',
+                    check: true,
+                    checkNames: []
+                }
+            }
+        }).mount('#demo')
+
+
+        Vue.createApp({
+            data() {
+                return {
+                    picked: ''
+                }
+            }
+        }).mount('#v-model-radiobutton');
+
+        Vue.createApp({
+            data() {
+                return {
+                    selected: ''
+                }
+            }
+        }).mount('#v-model-select');
+
+        Vue.createApp({
+            data() {
+                return {
+                    selected: 'A',
+                    options: [
+                        { text: 'Audi', value: 'A' },
+                        { text: 'Bmw', value: 'B' },
+                        { text: 'Citroen', value: 'C' }
+                    ]
+                }
+            }
+        }).mount('#v-model-select-dynamic')
+
+
+    </script>
+
+</body>
+
+</html>

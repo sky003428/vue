@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <form onsubmit="return false;" name="form1">
+        <div id="demo">
+            <input name="toggle" type="checkbox" v-model="toggle" true-value="yes" false-value="no" />
+            {{toggle}}
+            <br>
+            <input v-model="msg1" />
+            <p>msg1: {{msg1}}</p>
+            <input v-model.trim="msg2" />
+            <p>msg2: {{msg2}}</p>
+
+        </div>
+
+    </form>
+
+
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.37/vue.global.js'
+        integrity='sha512-9Vc284sv0s5PSp3I7M4OsV5rMl09djUv3rn+YRXUnNa3JyHv4NfbJgMypvX7P6gomnPMwt4PwULrYDTxNY88UQ=='
+        crossorigin='anonymous'></script>
+
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    toggle: 'no',
+                    msg1:'',
+                    msg2:'',
+                }
+            }
+        }).mount('#demo')
+
+
+
+
+
+    </script>
+
+</body>
+
+</html>

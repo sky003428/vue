@@ -10,13 +10,14 @@
 
 <body>
     <div id="demo">
-        <button @click.once="greet($event,name)">Greet Once</button>
+        <button @click.ctrl.exact="greet($event,name)">Greet Once</button>
         <button @click="warn('Form cannot be submitted yet.', $event)">
             Submit
         </button>
         <div onclick="console.log('div');">
             <button @click.stop="btn">stop Bubble</button>
         </div>
+        <input @keyup.enter="btn" />
     </div>
 
 
