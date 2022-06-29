@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="demo">
+        {{c1}}
+        <button-counter v-for="i of 3" @count="getCount" :name="i"></button-counter>
+       
+    </div>
+
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.37/vue.global.js'
+        integrity='sha512-9Vc284sv0s5PSp3I7M4OsV5rMl09djUv3rn+YRXUnNa3JyHv4NfbJgMypvX7P6gomnPMwt4PwULrYDTxNY88UQ=='
+        crossorigin='anonymous'></script>
+
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    c1: 0,
+                    c2: 0,
+                    c3: 0,
+                }
+            },
+            methods: {
+                getCount(c,n) {
+                    // this.c1 = c;
+                    console.log(c);
+                    console.log(n);
+                }
+            }
+        });
+
+        vm.component('button-counter', {
+            props:['name'],
+            emit: ['count'],
+            data() {
+                return {
+                    data:this.name,
+                    countNum: 1
+                }
+            },
+            template: `
+            <div @click="countNum++;$emit('count',countNum,name)">
+                You clicked me {{ countNum }} times
+                <h2>{{data}}</h2>
+            </div>
+            `
+        })
+
+        vm.mount("#demo");
+
+    </script>
+
+</body>
+
+</html>
