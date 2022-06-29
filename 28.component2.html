@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="demo">
+        <div :style="{ fontSize: postFontSize + 'em' }">
+            <blog-post v-for="v of posts" :vid="v.id" :title="v.title" @enlarge-text="postFontSize += 0.1"></blog-post>
+        </div>
+    </div>
+
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.37/vue.global.js'
+        integrity='sha512-9Vc284sv0s5PSp3I7M4OsV5rMl09djUv3rn+YRXUnNa3JyHv4NfbJgMypvX7P6gomnPMwt4PwULrYDTxNY88UQ=='
+        crossorigin='anonymous'></script>
+
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    posts: [
+                        { id: 1, title: 'My journey with Vue' },
+                        { id: 2, title: 'Blogging with Vue' },
+                        { id: 3, title: 'Why Vue is so fun' }
+                    ],
+                    postFontSize: 1.2
+                }
+            }
+        });
+
+        vm.component('blog-post', {
+            props: ['title', 'vid'],
+            template: `
+            <div class="blog-post">
+                <h4>{{ title }}</h4>
+            <button @click="$emit('enlargeText')">
+                Enlarge text
+            </button>
+            </div>`
+        })
+
+        vm.mount('#demo')
+
+
+
+    </script>
+
+</body>
+
+</html>

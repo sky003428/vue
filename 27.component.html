@@ -6,13 +6,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        #tp {
+            background-color: #ccc;
+            display: inline-block;
+            margin-right: 2rem;
+        }
+    </style>
 </head>
 
 <body>
     <div id="demo">
-        {{c1}}
         <button-counter v-for="i of 3" @count="getCount" :name="i"></button-counter>
-       
+        <p>C1: {{c1}}, C2: {{c2}}, C3: {{c3}}</p>
+
     </div>
 
 
@@ -30,28 +37,36 @@
                 }
             },
             methods: {
-                getCount(c,n) {
-                    // this.c1 = c;
-                    console.log(c);
-                    console.log(n);
+                getCount(c, n) {
+                    switch (n) {
+                        case 1:
+                            this.c1 = c;
+                            break;
+                        case 2:
+                            this.c2 = c;
+                            break;
+                        case 3:
+                            this.c3 = c;
+                            break;
+                    }
                 }
             }
         });
 
         vm.component('button-counter', {
-            props:['name'],
+            props: ['name'],
             emit: ['count'],
             data() {
                 return {
-                    data:this.name,
-                    countNum: 1
+                    data: this.name,
+                    countNum: 0
                 }
             },
             template: `
-            <div @click="countNum++;$emit('count',countNum,name)">
-                You clicked me {{ countNum }} times
-                <h2>{{data}}</h2>
-            </div>
+            <template @click="countNum++;$emit('count',countNum,name)" id="tp">
+                <p>You clicked me {{ countNum }} times!!</p>
+                <span>name: {{data}}</span>
+            </template>
             `
         })
 
