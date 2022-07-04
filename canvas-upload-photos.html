@@ -8,41 +8,59 @@
     <title>Document</title>
     <style>
         canvas {
-            border: 1px dotted blue;
+            outline: 1px dotted blue;
+            height: 680px;
         }
 
+
+
         .img-wrap {
-            width: 800px;
+            width: 500px;
+        }
+
+        .img-wrap img {
+            width: 100%;
+            height: auto;
+        }
+
+        .row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .mt-50 {
+            margin-top: 50px;
         }
     </style>
 </head>
 
 <body>
+    <div class="row mt-50">
+        <canvas width="500" height="680"></canvas>
+        <div class="img-wrap"><img src="" id="img" alt=""></div>
+    </div>
     <form name="form1" action="" onsubmit="return false" method="post" enctype="multipart/form-data">
         <!-- <input type="file" name="myfile" multiple> -->
-        <div class="img-wrap">
-            <input type="file" name="myfile" accept="image/*" onchange="changeImg(event)">
-        </div>
+
+        <input type="file" name="myfile" accept="image/*" onchange="changeImg(event)">
 
 
     </form>
-    <div><img src="" id="img" alt=""></div>
 
-    <canvas width="400" height="300"></canvas>
     <script>
         const canvas = document.querySelector("canvas");
         const img = document.querySelector("#img");
-        var ctx = canvas.getContext("2d");
-        var MAX_WIDTH = 400;
-        var MAX_HEIGHT = 300;
-        var width;
-        var height;
+        const ctx = canvas.getContext("2d");
+
+        let width;
+        let height;
+        let moveX = 0;
+        let moveY = 0;
 
 
         let lastX = 0;
         let lastY = 0;
-        let moveX = 0;
-        let moveY = 0;
 
         canvas.addEventListener("mousedown", (event) => {
             const downX = event.offsetX;
@@ -54,41 +72,53 @@
                 moveX = lastX + event.offsetX - downX;
                 moveY = lastY + event.offsetY - downY;
 
-                ctx.clearRect(0, 0, 400, 300);
+                ctx.clearRect(0, 0, 500, 680);
                 ctx.drawImage(img, moveX, moveY, width, height);
-
+                console.log(moveY);
 
             }
 
             const mouseUp = () => {
+                if (moveY > 0) {
+                    console.log(moveY, "回去");
+                }
+
                 canvas.removeEventListener("mousemove", mouseMove);
-                canvas.removeEventListener("mouseup", mouseUp);
+                window.removeEventListener("mouseup", mouseUp);
                 // console.log(lastX+moveX,moveY);
-                lastX = moveX;
-                lastY = moveY;
+
+
+                if (moveX < 0 || moveX > img.width - canvas.width) {
+                    lastX = 0;
+                    moveX = 0;
+                }
+                if (moveY > 0 || moveY < (canvas.height - height)) {
+
+                    if (moveY > 0) {
+                        console.log("歸0")
+                        lastY = 0;
+                        moveY = 0;
+                    } else {
+                        console.log("至底", canvas.height - height)
+                        lastY = canvas.height - height;
+                        moveY = canvas.height - height;
+                    }
+                }
+             
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                    ctx.drawImage(img, moveX, moveY, width, height);
+               
+
+
+                console.log('lastX' + lastX, 'lastY' + lastY);
             };
 
 
-            canvas.addEventListener("mouseup", mouseUp);
+            window.addEventListener("mouseup", mouseUp);
 
         })
 
-        // // document.form1.myfile.files Filelist
-        // // document.form1.myfile[0] myfile
-        // function changeImg(event) {
-        //     const file = event.currentTarget.files[0];
-        //     console.log(file);
-        //     const reader = new FileReader();
-
-        //     // 資料載入後(讀取完成後)
-        //     reader.readAsDataURL(file);
-        //     reader.onload = function () {
-        //         console.log(reader.result);
-        //         img.src = reader.result;
-        //     };
-
-
-        // }
 
         var dataurl;
 
@@ -107,13 +137,11 @@
             reader.readAsDataURL(file);
 
             document.querySelectorAll("img")[0].onload = function () {
-                // console.log(getComputedStyle(img).width);
 
                 // var ctx = canvas.getContext("2d");
                 // ctx.drawImage(img, 0, 0);
 
 
-                console.log("width,height");
                 // if (width > height) {
                 //     if (width > MAX_WIDTH) {
                 //         height *= MAX_WIDTH / width;
@@ -127,21 +155,26 @@
                 // }
                 // canvas.width = width;
                 // canvas.height = height;
+                const ratio = img.width / img.height;
 
+                img.width = 500;
+                img.height = img.width * ratio;
+
+                console.log(img.width, img.height);
                 width = img.width;
                 height = img.height;
 
-                ctx.drawImage(img, 0, 0, width, height);
+                ctx.drawImage(img, 0, (canvas.height - height) / 2, width, height);
 
+
+                lastY = (canvas.height - height) / 2;
                 dataurl = canvas.toDataURL("image/jpeg");
-
-                // img2.src = dataurl;
 
 
             }
         }
 
-
+        // base64轉file
         function dataURLtoFile(dataurl, filename) {
             var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
                 bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
