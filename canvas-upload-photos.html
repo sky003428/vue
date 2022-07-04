@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        canvas {
+            border: 1px dotted blue;
+        }
+
+        .img-wrap {
+            width: 800px;
+        }
+    </style>
+</head>
+
+<body>
+    <form name="form1" action="" onsubmit="return false" method="post" enctype="multipart/form-data">
+        <!-- <input type="file" name="myfile" multiple> -->
+        <div class="img-wrap">
+            <input type="file" name="myfile" accept="image/*" onchange="changeImg(event)">
+        </div>
+
+
+    </form>
+    <div><img src="" id="img" alt=""></div>
+
+    <canvas width="400" height="300"></canvas>
+    <script>
+        const canvas = document.querySelector("canvas");
+        const img = document.querySelector("#img");
+        var ctx = canvas.getContext("2d");
+        var MAX_WIDTH = 400;
+        var MAX_HEIGHT = 300;
+        var width;
+        var height;
+
+
+        let lastX = 0;
+        let lastY = 0;
+        let moveX = 0;
+        let moveY = 0;
+
+        canvas.addEventListener("mousedown", (event) => {
+            const downX = event.offsetX;
+            const downY = event.offsetY;
+            canvas.addEventListener("mousemove", mouseMove);
+
+
+            function mouseMove(event) {
+                moveX = lastX + event.offsetX - downX;
+                moveY = lastY + event.offsetY - downY;
+
+                ctx.clearRect(0, 0, 400, 300);
+                ctx.drawImage(img, moveX, moveY, width, height);
+
+
+            }
+
+            const mouseUp = () => {
+                canvas.removeEventListener("mousemove", mouseMove);
+                canvas.removeEventListener("mouseup", mouseUp);
+                // console.log(lastX+moveX,moveY);
+                lastX = moveX;
+                lastY = moveY;
+            };
+
+
+            canvas.addEventListener("mouseup", mouseUp);
+
+        })
+
+        // // document.form1.myfile.files Filelist
+        // // document.form1.myfile[0] myfile
+        // function changeImg(event) {
+        //     const file = event.currentTarget.files[0];
+        //     console.log(file);
+        //     const reader = new FileReader();
+
+        //     // 資料載入後(讀取完成後)
+        //     reader.readAsDataURL(file);
+        //     reader.onload = function () {
+        //         console.log(reader.result);
+        //         img.src = reader.result;
+        //     };
+
+
+        // }
+
+        var dataurl;
+
+        function changeImg(event) {
+            // from an input element
+            // var filesToUpload = input.files
+
+            var file = event.currentTarget.files[0];
+
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                img.src = e.target.result;
+                // console.log(img.src);
+                img.style.display = "block";
+            }
+            reader.readAsDataURL(file);
+
+            document.querySelectorAll("img")[0].onload = function () {
+                // console.log(getComputedStyle(img).width);
+
+                // var ctx = canvas.getContext("2d");
+                // ctx.drawImage(img, 0, 0);
+
+
+                console.log("width,height");
+                // if (width > height) {
+                //     if (width > MAX_WIDTH) {
+                //         height *= MAX_WIDTH / width;
+                //         width = MAX_WIDTH;
+                //     }
+                // } else {
+                //     if (height > MAX_HEIGHT) {
+                //         width *= MAX_HEIGHT / height;
+                //         height = MAX_HEIGHT;
+                //     }
+                // }
+                // canvas.width = width;
+                // canvas.height = height;
+
+                width = img.width;
+                height = img.height;
+
+                ctx.drawImage(img, 0, 0, width, height);
+
+                dataurl = canvas.toDataURL("image/jpeg");
+
+                // img2.src = dataurl;
+
+
+            }
+        }
+
+
+        function dataURLtoFile(dataurl, filename) {
+            var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+                bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            return new File([u8arr], filename, { type: mime });
+        }
+
+        function uploadImg() {
+            const canvasFile = dataURLtoFile(dataurl, "abc123.jpg");
+
+            const fd = new FormData(document.form1);
+            fd.append("canvasFile", canvasFile);
+
+            console.log([...fd]);
+        }
+
+    </script>
+</body>
+
+</html>
