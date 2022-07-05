@@ -45,7 +45,13 @@
 
         <input type="file" name="myfile" accept="image/*" onchange="changeImg(event)">
 
+        <button onclick="filter(1)">灰階</button>
+        <button onclick="filter(2)">負片</button>
+        <button onclick="filter(3)">反轉</button>
+        <button onclick="resetImg()">原始</button>
 
+        <label for="lightness">亮度</label>
+        <input type="range" name="lightness" id="lightness" max="100" min="0" value="50" step="5">
     </form>
 
     <script>
@@ -170,27 +176,15 @@
                 const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
                 const pixelData = imageData.data;
 
-                originData = new  Uint8ClampedArray(pixelData);
+                originData = new Uint8ClampedArray(pixelData);
                 console.log(originData);
-           
+
             }
         }
 
 
 
-        function oD() {
-            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            // console.log(originData);
-            let o = imageData.data;
-            o = originData;
-            // o = [...originData];
-            // o.splice(0, 0, originData);
-
-            ctx.putImageData(imageData, 0, 0);
-
-            console.log(o);
-
-        }
+   
 
         function filter2(fName) {
             const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -209,7 +203,7 @@
 
         }
 
-        function filter3(fName) {
+        function resetImg() {
             const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
 
@@ -244,28 +238,29 @@
 
             // pixelData = orginData;
 
-
-            // if (fName == 1) {
-            for (let i = 0; i < pixelData.length; i += 4) {
-                avg = (pixelData[i] + pixelData[i + 1] + pixelData[i + 2]) / 3;
-                pixelData[i] = avg;
-                pixelData[i + 1] = avg;
-                pixelData[i + 2] = avg;
+            // 灰階
+            if (fName == 1) {
+                for (let i = 0; i < pixelData.length; i += 4) {
+                    avg = (pixelData[i] + pixelData[i + 1] + pixelData[i + 2]) / 3;
+                    pixelData[i] = avg;
+                    pixelData[i + 1] = avg;
+                    pixelData[i + 2] = avg;
+                }
             }
-            // }
-            // else if (fName == 2) {
-            //     for (var i = 0; i < pixelData.length; i += 4) {
-            //         pixelData[i] = 255 - pixelData[i];
-            //         pixelData[i + 1] = 255 - pixelData[i + 1];
-            //         pixelData[i + 2] = 255 - pixelData[i + 2];
-            //     }
+            // 負片
+            else if (fName == 2) {
+                for (var i = 0; i < pixelData.length; i += 4) {
+                    pixelData[i] = 255 - pixelData[i];
+                    pixelData[i + 1] = 255 - pixelData[i + 1];
+                    pixelData[i + 2] = 255 - pixelData[i + 2];
+                }
 
-            // } else if (fName == 3) {
-            //     for (var i = 0; i < pixelData.length; i++) {
-            //         pixelData[i * 4 + 2] = 0;
-            //         pixelData[i * 4 + 1] = 0;
-            //     }
-            // }
+            } else if (fName == 3) {
+                for (var i = 0; i < pixelData.length; i++) {
+                    pixelData[i * 4 + 2] = 0;
+                    pixelData[i * 4 + 1] = 0;
+                }
+            }
 
             ctx.putImageData(imageData, 0, 0);
 
