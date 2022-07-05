@@ -61,6 +61,7 @@
 
         let lastX = 0;
         let lastY = 0;
+        let originData = new Uint8ClampedArray();
 
         canvas.addEventListener("mousedown", (event) => {
             const downX = event.offsetX;
@@ -72,16 +73,13 @@
                 moveX = lastX + event.offsetX - downX;
                 moveY = lastY + event.offsetY - downY;
 
-                ctx.clearRect(0, 0, 500, 680);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.drawImage(img, moveX, moveY, width, height);
-                console.log(moveY);
+
 
             }
 
             const mouseUp = () => {
-                if (moveY > 0) {
-                    console.log(moveY, "回去");
-                }
 
                 canvas.removeEventListener("mousemove", mouseMove);
                 window.removeEventListener("mouseup", mouseUp);
@@ -95,23 +93,20 @@
                 if (moveY > 0 || moveY < (canvas.height - height)) {
 
                     if (moveY > 0) {
-                        console.log("歸0")
+
                         lastY = 0;
                         moveY = 0;
                     } else {
-                        console.log("至底", canvas.height - height)
+
                         lastY = canvas.height - height;
                         moveY = canvas.height - height;
                     }
                 }
-             
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-                    ctx.drawImage(img, moveX, moveY, width, height);
-               
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+                ctx.drawImage(img, moveX, moveY, width, height);
 
-                console.log('lastX' + lastX, 'lastY' + lastY);
             };
 
 
@@ -160,7 +155,7 @@
                 img.width = 500;
                 img.height = img.width * ratio;
 
-                console.log(img.width, img.height);
+
                 width = img.width;
                 height = img.height;
 
@@ -171,7 +166,109 @@
                 dataurl = canvas.toDataURL("image/jpeg");
 
 
+
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const pixelData = imageData.data;
+
+                originData = new  Uint8ClampedArray(pixelData);
+                console.log(originData);
+           
             }
+        }
+
+
+
+        function oD() {
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            // console.log(originData);
+            let o = imageData.data;
+            o = originData;
+            // o = [...originData];
+            // o.splice(0, 0, originData);
+
+            ctx.putImageData(imageData, 0, 0);
+
+            console.log(o);
+
+        }
+
+        function filter2(fName) {
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+
+            let pixelData = imageData.data;
+
+
+            for (var i = 0; i < pixelData.length; i += 4) {
+                pixelData[i] = 255 - pixelData[i];
+                pixelData[i + 1] = 255 - pixelData[i + 1];
+                pixelData[i + 2] = 255 - pixelData[i + 2];
+            }
+
+            ctx.putImageData(imageData, 0, 0);
+
+        }
+
+        function filter3(fName) {
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+
+            let pixelData = imageData.data;
+
+            console.log("pData", pixelData);
+            console.log("oData", originData);
+
+
+            for (var i = 0; i < pixelData.length; i++) {
+                pixelData[i] = originData[i];
+            }
+
+            ctx.putImageData(imageData, 0, 0);
+
+        }
+
+
+        function filter(fName) {
+            //將getImageData屬性存入變數
+            // const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            //getImageData內含canvas的寬高及pixel陣列 此處.data即為pixel陣列
+
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+            // oD();
+
+            let pixelData = imageData.data;
+            // pixelData = orginData;
+
+            console.log(pixelData);
+
+            // pixelData = orginData;
+
+
+            // if (fName == 1) {
+            for (let i = 0; i < pixelData.length; i += 4) {
+                avg = (pixelData[i] + pixelData[i + 1] + pixelData[i + 2]) / 3;
+                pixelData[i] = avg;
+                pixelData[i + 1] = avg;
+                pixelData[i + 2] = avg;
+            }
+            // }
+            // else if (fName == 2) {
+            //     for (var i = 0; i < pixelData.length; i += 4) {
+            //         pixelData[i] = 255 - pixelData[i];
+            //         pixelData[i + 1] = 255 - pixelData[i + 1];
+            //         pixelData[i + 2] = 255 - pixelData[i + 2];
+            //     }
+
+            // } else if (fName == 3) {
+            //     for (var i = 0; i < pixelData.length; i++) {
+            //         pixelData[i * 4 + 2] = 0;
+            //         pixelData[i * 4 + 1] = 0;
+            //     }
+            // }
+
+            ctx.putImageData(imageData, 0, 0);
+
         }
 
         // base64轉file
@@ -190,8 +287,8 @@
             const fd = new FormData(document.form1);
             fd.append("canvasFile", canvasFile);
 
-            console.log([...fd]);
         }
+
 
     </script>
 </body>
