@@ -11,6 +11,7 @@
             width: 500px;
             height: 680px;
         }
+       
     </style>
 </head>
 
@@ -19,16 +20,27 @@
     <canvas id="canvas" width="500" height="680"></canvas>
 
     <div style="margin-top: 20px;">
-        <button id="btn1">降低10亮度</button>
-        <button id="btn2">增加10亮度</button>
-        <label for="range" id="labelFR">50</label>
-        <input type="range" max="100" min="0" step="5" id="range">
+        <div class="panel">
+            <div class="light">
+                <p>亮度</p>
+                <button id="btn1">降低10亮度</button>
+                <button id="btn2">增加10亮度</button>
+                <label for="range" id="labelFR">50</label>
+                <input type="range" max="100" min="0"  id="range">
+            </div>
+            <div class="hue">
+                <p>色相</p>
+             
+                <label for="range" id="labelHue">50</label>
+                <input type="range" max="100" min="0"  id="range-hue">
+            </div>
+        </div>
     </div>
     <script type="module">
         // import rgb2hsv from './rgb2hsv.js';
         // arr: rgb陣列
         // console.log(rgb2hsv);
-
+        const worker = new Worker('javascripts/dedicated-worker.js');
 
         window.onload = () => {
             const pic = document.querySelector('#pic')
@@ -62,13 +74,33 @@
                 ctx.putImageData(changeLuminance(imgData, luminanceDiff), 0, 0)
 
             });
+            document.querySelector("#range-hue").addEventListener("input", () => {
+                const hue = (event.currentTarget.value - 50) * 0.01;
+                const imgData = offscreenCtx.getImageData(0, 0, 500, 680)
+               
+                labelHue.innerText = event.currentTarget.value;
+                ctx.putImageData(changeHue(imgData, hue), 0, 0)
 
-            // 修改图片亮度, imgdata为从canvas获取到的rgba数组，value为需要增加或减少的亮度值（0~1）
+            });
+
+            // 修改圖片亮度, imgdata是canvas取到的rgba，value為亮度（0~1）
             function changeLuminance(imgdata, value) {
                 const data = imgdata.data
                 for (let i = 0; i < data.length; i += 4) {
                     const hsv = rgb2hsv([data[i], data[i + 1], data[i + 2]])
                     hsv[2] *= (1 + value)
+                    const rgb = hsv2rgb([...hsv])
+                    data[i] = rgb[0];
+                    data[i + 1] = rgb[1];
+                    data[i + 2] = rgb[2];
+                }
+                return imgdata
+            }
+            function changeHue(imgdata, value) {
+                const data = imgdata.data
+                for (let i = 0; i < data.length; i += 4) {
+                    const hsv = rgb2hsv([data[i], data[i + 1], data[i + 2]])
+                    hsv[0] *= (1 + value)
                     const rgb = hsv2rgb([...hsv])
                     data[i] = rgb[0];
                     data[i + 1] = rgb[1];
