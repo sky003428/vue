@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+        }
+        .show-img {
+            height: 680px;
+            width: 500px;
+        }
+
+        .show-img>img {
+            height: 100%;
+            width: 100%;
+
+        }
+
+        .row {
+            display: flex;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="demo">
+        <div class="row">
+            <div class="show-img">
+                <img src="./imgs/dog.jpg" ref="pic">
+            </div>
+            <canvas id="canvas" width="500" height="680" ref="canvas"></canvas>
+        </div>
+
+        <p>亮度</p>
+        <input type="range" name="brightness" id="brightness" v-model="brightness" max="150" min="50">
+        <label for="brightness">{{brightness-50}}</label>
+        <p>對比度</p>
+        <input type="range" name="contrast" id="contrast" v-model="contrast" max="150" min="50">
+        <label for="contrast">{{contrast-50}}</label>
+        <p>飽和度</p>
+        <input type="range" name="saturate" id="saturate" v-model="saturate" max="150" min="50">
+        <label for="contrast">{{saturate-50}}</label>
+
+    </div>
+
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.37/vue.global.js'
+        integrity='sha512-9Vc284sv0s5PSp3I7M4OsV5rMl09djUv3rn+YRXUnNa3JyHv4NfbJgMypvX7P6gomnPMwt4PwULrYDTxNY88UQ=='
+        crossorigin='anonymous'></script>
+
+    <script>
+        const vm = Vue.createApp({
+            data() {
+                return {
+                    brightness: 100,
+                    contrast: 100,
+                    saturate:100,
+                    
+                }
+            },
+            mounted() {
+                this.setCanvas();
+             
+            },
+            methods: {
+                setCanvas() {
+                    var canvas = this.$refs['canvas'];
+                    var ctx = canvas.getContext("2d");
+                
+                    console.log(this.pic);
+                    
+                    console.log();
+                    
+                    setTimeout(() => {
+                        ctx.drawImage(this.$refs['pic'], 0, 0, 500, 680);
+                    }, 0)
+                },
+                drawFilter(){
+                    var canvas = this.$refs['canvas'];
+                    var ctx = canvas.getContext("2d");
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.filter = `brightness(${this.brightness}%) contrast(${this.contrast}%) saturate(${this.saturate}%)`;
+                    ctx.drawImage(this.$refs['pic'], 0, 0, 500, 680);
+                    // this.brightness
+                }
+            },
+            watch:{
+                brightness:function(){
+                    this.drawFilter();
+                },
+                contrast:function(){
+                    this.drawFilter();
+                },
+                saturate:function(){
+                    this.drawFilter();
+                }
+            }
+        }).mount('#demo')
+
+
+
+    </script>
+
+</body>
+
+</html>

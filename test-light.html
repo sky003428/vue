@@ -11,7 +11,6 @@
             width: 500px;
             height: 680px;
         }
-       
     </style>
 </head>
 
@@ -26,31 +25,35 @@
                 <button id="btn1">降低10亮度</button>
                 <button id="btn2">增加10亮度</button>
                 <label for="range" id="labelFR">50</label>
-                <input type="range" max="100" min="0"  id="range">
+                <input type="range" max="100" min="0" id="range">
             </div>
             <div class="hue">
                 <p>色相</p>
-             
+
                 <label for="range" id="labelHue">50</label>
-                <input type="range" max="100" min="0"  id="range-hue">
+                <input type="range" max="100" min="0" id="range-hue">
             </div>
         </div>
     </div>
-    <script type="module">
+    <script>
+        // Hide method from for-in loops
         // import rgb2hsv from './rgb2hsv.js';
         // arr: rgb陣列
         // console.log(rgb2hsv);
         const worker = new Worker('javascripts/dedicated-worker.js');
 
+        let a, b = [];
+        let ctx;
         window.onload = () => {
             const pic = document.querySelector('#pic')
             const canvas = document.querySelector('#canvas')
-            const ctx = canvas.getContext('2d')
+             ctx = canvas.getContext('2d')
             const btn1 = document.getElementById('btn1')
             const btn2 = document.getElementById('btn2')
             const offscreen = new OffscreenCanvas(500, 680);
             const offscreenCtx = offscreen.getContext('2d');
             let luminanceDiff = 0
+            ctx.filter = "brightness(150%)";
             ctx.drawImage(pic, 0, 0, 500, 680);
             offscreenCtx.drawImage(pic, 0, 0, 500, 680);
             // 降低10%的亮度
@@ -65,27 +68,36 @@
                 const imgData = offscreenCtx.getImageData(0, 0, 500, 680)
                 ctx.putImageData(changeLuminance(imgData, luminanceDiff), 0, 0)
             }
-            
+
             document.querySelector("#range").addEventListener("input", () => {
                 luminanceDiff = (event.currentTarget.value - 50) * 0.01;
                 const imgData = offscreenCtx.getImageData(0, 0, 500, 680)
-                console.log(luminanceDiff);
+           
+                a = imgData.data;
                 labelFR.innerText = event.currentTarget.value;
-                ctx.putImageData(changeLuminance(imgData, luminanceDiff), 0, 0)
-
+     
+                draw(imgData);
             });
             document.querySelector("#range-hue").addEventListener("input", () => {
                 const hue = (event.currentTarget.value - 50) * 0.01;
                 const imgData = offscreenCtx.getImageData(0, 0, 500, 680)
-               
+     
+                b = imgData.data;
+
                 labelHue.innerText = event.currentTarget.value;
+                draw(imgData);
+            });
+            
+            function draw(imgData){
+                ctx.putImageData(changeLuminance(imgData, luminanceDiff), 0, 0)
                 ctx.putImageData(changeHue(imgData, hue), 0, 0)
 
-            });
+            }
 
             // 修改圖片亮度, imgdata是canvas取到的rgba，value為亮度（0~1）
             function changeLuminance(imgdata, value) {
                 const data = imgdata.data
+
                 for (let i = 0; i < data.length; i += 4) {
                     const hsv = rgb2hsv([data[i], data[i + 1], data[i + 2]])
                     hsv[2] *= (1 + value)
@@ -97,7 +109,8 @@
                 return imgdata
             }
             function changeHue(imgdata, value) {
-                const data = imgdata.data
+                const data = imgdata.data;
+
                 for (let i = 0; i < data.length; i += 4) {
                     const hsv = rgb2hsv([data[i], data[i + 1], data[i + 2]])
                     hsv[0] *= (1 + value)
