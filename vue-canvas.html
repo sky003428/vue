@@ -7,9 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        *{
+        * {
             margin: 0;
         }
+
         .show-img {
             height: 680px;
             width: 500px;
@@ -53,50 +54,50 @@
         integrity='sha512-9Vc284sv0s5PSp3I7M4OsV5rMl09djUv3rn+YRXUnNa3JyHv4NfbJgMypvX7P6gomnPMwt4PwULrYDTxNY88UQ=='
         crossorigin='anonymous'></script>
 
-    <script>
+    <script type="module">
+        import { rgb2hsv, hsv2rgb } from "./rgb2hsv.js";
+
+
         const vm = Vue.createApp({
             data() {
                 return {
                     brightness: 100,
                     contrast: 100,
-                    saturate:100,
-                    
+                    saturate: 100,
+
                 }
             },
             mounted() {
-                this.setCanvas();
-             
+                window.addEventListener("load", () => {
+                    const ctx = this.$refs.canvas.getContext("2d");
+                    ctx.drawImage(this.$refs['pic'], 0, 0, 500, 680);
+
+                    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                })
+
             },
             methods: {
-                setCanvas() {
-                    var canvas = this.$refs['canvas'];
-                    var ctx = canvas.getContext("2d");
-                
-                    console.log(this.pic);
-                    
-                    console.log();
-                    
-                    setTimeout(() => {
-                        ctx.drawImage(this.$refs['pic'], 0, 0, 500, 680);
-                    }, 0)
-                },
-                drawFilter(){
+
+                drawFilter() {
                     var canvas = this.$refs['canvas'];
                     var ctx = canvas.getContext("2d");
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
                     ctx.filter = `brightness(${this.brightness}%) contrast(${this.contrast}%) saturate(${this.saturate}%)`;
                     ctx.drawImage(this.$refs['pic'], 0, 0, 500, 680);
+
+                    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                    ctx.putImagedata(imageData, 0, 0);
                     // this.brightness
                 }
             },
-            watch:{
-                brightness:function(){
+            watch: {
+                brightness: function () {
                     this.drawFilter();
                 },
-                contrast:function(){
+                contrast: function () {
                     this.drawFilter();
                 },
-                saturate:function(){
+                saturate: function () {
                     this.drawFilter();
                 }
             }
