@@ -25,6 +25,14 @@
         .row {
             display: flex;
         }
+
+        button{
+            margin-right: 1rem;
+        }
+
+        button.selected{
+            outline: 2px solid blue;
+        }
     </style>
 </head>
 
@@ -35,6 +43,7 @@
                 <img src="./imgs/dog.jpg" ref="pic">
             </div>
             <canvas id="canvas" width="500" height="680" ref="canvas"></canvas>
+            <canvas id="canvas2" width="500" height="680" ref="canvas2"></canvas>
         </div>
 
         <p>亮度</p>
@@ -46,7 +55,11 @@
         <p>飽和度</p>
         <input type="range" name="saturate" id="saturate" v-model="saturate" max="150" min="50">
         <label for="contrast">{{saturate-50}}</label>
-
+        <div class="row">
+            <button @click="imgState = null" :class="imgState===null?'selected':''">原圖{{ imgState==null?'V':'' }}</button>
+            <button @click="imgState = 'greyed';" :class="imgState==='greyed'?'selected':''">灰階{{ imgState=='greyed'?'V':'' }}</button>
+            <button @click="imgState = 'yellowed'" :class="imgState==='yellowed'?'selected':''">泛黃{{ imgState=='yellowed'?'V':'' }}</button>
+        </div>
     </div>
 
 
@@ -64,7 +77,7 @@
                     brightness: 100,
                     contrast: 100,
                     saturate: 100,
-
+                    imgState: null
                 }
             },
             mounted() {
@@ -73,8 +86,9 @@
                     ctx.drawImage(this.$refs['pic'], 0, 0, 500, 680);
 
                     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                })
 
+
+                })
             },
             methods: {
 
@@ -85,9 +99,38 @@
                     ctx.filter = `brightness(${this.brightness}%) contrast(${this.contrast}%) saturate(${this.saturate}%)`;
                     ctx.drawImage(this.$refs['pic'], 0, 0, 500, 680);
 
-                    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                    ctx.putImagedata(imageData, 0, 0);
-                    // this.brightness
+                    const ctx2 = this.$refs['canvas2'].getContext("2d");
+                    ctx2.drawImage(this.$refs['canvas'], 0, 0, canvas.width, canvas.height);
+                    const imageData = ctx2.getImageData(0, 0, canvas.width, canvas.height);
+
+                    const pixelData = imageData.data;
+                    // 灰階
+                    if (this.imgState === 'greyed') {
+                        for (let i = 0; i < pixelData.length; i += 4) {
+                            const avg = (pixelData[i] + pixelData[i + 1] + pixelData[i + 2]) / 3;
+                            pixelData[i] = avg;
+                            pixelData[i + 1] = avg;
+                            pixelData[i + 2] = avg;
+                        }
+                    }
+
+                    // 底片效果
+                    if (this.imgState === 'yellowed') {
+                        for (let i = 0; i < pixelData.length; i += 4) {
+                            //將所有的RGB值重新賦值（底片效果 = 255 - 當前的RGB值） 
+                            pixelData[i] = pixelData[i] * 1.05;
+                            pixelData[i + 2] = pixelData[i + 2] * 0.8;
+                        }
+
+                    }
+
+                    ctx2.putImageData(imageData, 0, 0);
+                },
+                draw2() {
+                    const ctx2 = this.$refs['canvas2'].getContext("2d");
+                    const imageData = ctx2.getImageData(0, 0, canvas.width, canvas.height);
+                    ctx2.drawImage(this.$refs['pic'], 0, 0, 500, 680);
+                    // ctx.putImagedata(imageData, 0, 0);
                 }
             },
             watch: {
@@ -99,7 +142,8 @@
                 },
                 saturate: function () {
                     this.drawFilter();
-                }
+                },
+                imgState: function () { this.drawFilter(); }
             }
         }).mount('#demo')
 
